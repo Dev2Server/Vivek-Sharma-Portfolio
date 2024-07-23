@@ -1,46 +1,3 @@
- <?php
-// Import PHPMailer classes into the global namespace
-use PHPMailer\PHPMailer\PHPMailer;
-use PHPMailer\PHPMailer\Exception;
-
-// Load Composer's autoloader
-require 'PHPMailer/PHPMailer.php';
-require 'PHPMailer/SMTP.php';
-require 'PHPMailer/Exception.php';
-
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    header('Content-Type: application/json');
-
-    $response = array('success' => false);
-
-    try {
-        $mail = new PHPMailer(true);
-        $mail->isSMTP();
-        $mail->Host = 'smtp.gmail.com';
-        $mail->SMTPAuth = true;
-        $mail->Username = 'vivek.successive@gmail.com';
-        $mail->Password = 'xtzbcymtbglfmaan';
-        $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;
-        $mail->Port = 465;
-
-        $mail->setFrom('vivek.successive@gmail.com', 'Mailer');
-        $mail->addAddress($_POST["email"]);
-
-        $mail->isHTML(true);
-        $mail->Subject = $_POST["subject"];
-        $mail->Body = $_POST["name"] . "<br>" . $_POST["message"];
-
-        $mail->send();
-
-        $response['success'] = true;
-    } catch (Exception $e) {
-        $response['error'] = "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
-    }
-
-    echo json_encode($response);
-    exit; // Prevent the rest of the HTML from being output
-}
-?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -684,7 +641,7 @@ WordPress themes.</li>
           </div>
 
           <div class="col-lg-7">
-            <form id="contact-form" method="post" class="php-email-form" data-aos="fade-up" data-aos-delay="200">
+            <form action="forms/contact.php" method="post" class="php-email-form" data-aos="fade-up" data-aos-delay="200">
               <div class="row gy-4">
 
                 <div class="col-md-6">
@@ -764,40 +721,6 @@ WordPress themes.</li>
 
   <!-- Main JS File -->
   <script src="assets/js/main.js"></script>
-  
-  <script>
-    $(document).ready(function() {
-      $('#contact-form').on('submit', function(event) {
-        event.preventDefault(); // Prevent the default form submission
-
-        // Show loading message
-        $('.loading').show();
-        $('.error-message').hide();
-        $('.sent-message').hide();
-
-        $.ajax({
-          url: '', // Since the PHP is in the same file, leave URL empty
-          method: 'POST',
-          data: $(this).serialize(),
-          dataType: 'json',
-          success: function(response) {
-            $('.loading').hide();
-            if (response.success) {
-              $('.sent-message').show();
-            } else {
-              $('.error-message').text(response.error).show();
-            }
-          },
-          error: function() {
-            $('.loading').hide();
-            $('.error-message').text('An error occurred while sending the message.').show();
-          }
-        });
-      });
-    });
-  </script>
-
-
 
 </body>
 
