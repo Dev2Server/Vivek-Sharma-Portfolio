@@ -1270,9 +1270,6 @@ section,
 /*--------------------------------------------------------------
 # Starter Section Section
 --------------------------------------------------------------*/
-.starter-section {
-  /* Add your styles here */
-}
 
 @media only screen and (min-width: 1024px) {
     .nowrap {
@@ -1284,4 +1281,18 @@ section,
   .hero img {
     object-position: 70%;
   }
+}
+
+.plus-sign {
+  font-size: 1.6em; /* Adjust as needed */
+  color: #000; /* Adjust as needed */
+}
+
+.counter{
+  display: -webkit-box;
+  position: absolute;
+}
+
+.counter-Text{
+  padding-top: 55px !important;
 }
